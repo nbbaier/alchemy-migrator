@@ -1,11 +1,11 @@
-name = "simple-worker"
-main = "src/index.ts"
+name               = "simple-worker"
+main               = "src/index.ts"
 compatibility_date = "2024-01-01"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "abc123"
+id      = "abc123"
 
 [vars]
 API_KEY = "secret-key"
-DEBUG = "true"
+DEBUG   = "true"

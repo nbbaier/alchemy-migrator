@@ -27,7 +27,8 @@
     "typescript": "^5.3.0",
     "vitest": "^1.0.0",
     "@vitest/coverage-v8": "^1.0.0",
-    "fast-check": "^3.15.0"
+    "fast-check": "^3.15.0",
+    "@types/bun": "latest"
   },
   "keywords": [
     "alchemy",
@@ -36,5 +37,7 @@
     "migration",
     "infrastructure-as-code",
     "workers"
-  ]
+  ],
+  "module": "index.ts",
+  "private": true
 }
