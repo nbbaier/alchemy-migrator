@@ -1,1 +1,14 @@
-<script src="https://gist.github.com/mattpocock/3fa37286736669878523596f1206ff4a.js"></script>
+- In all interactions and commit messages, be extremely concise and sacrifice grammar for the sake of concision.
+
+## PR Comments
+- When tagging Claude in GitHub issues, use '@claude'
+
+## GitHub
+- Your primary method for interacting with GitHub should be the GitHub CLI.
+
+## Git
+- When creating branches, prefix them with nico/ to indicate they came from me.
+
+## Plans
+
+- At the end of each plan, give me a list of unresolved questions to answer, if any. Make the questions extremely concise. Sacrifice grammar for the sake of concision.
