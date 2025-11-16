@@ -11,6 +11,13 @@ export interface BindingContext {
  */
 export class BindingTransformer {
   /**
+   * Sanitize ID to match resource mapper format
+   */
+  private static sanitizeId(id: string): string {
+    return id.replace(/[^a-z0-9_]/gi, '_').toLowerCase();
+  }
+
+  /**
    * Build bindings from all wrangler binding types
    */
   static transformBindings(
@@ -22,7 +29,8 @@ export class BindingTransformer {
     // KV Namespaces
     if (config.kv_namespaces) {
       for (const kv of config.kv_namespaces) {
-        const resourceVar = context.resources.get(`kv:${kv.binding}`);
+        const id = this.sanitizeId(kv.binding);
+        const resourceVar = context.resources.get(`kv:${id}`);
         if (resourceVar) {
           bindings[kv.binding] = {
             type: 'resource',
@@ -35,7 +43,8 @@ export class BindingTransformer {
     // R2 Buckets
     if (config.r2_buckets) {
       for (const bucket of config.r2_buckets) {
-        const resourceVar = context.resources.get(`r2:${bucket.binding}`);
+        const id = this.sanitizeId(bucket.binding);
+        const resourceVar = context.resources.get(`r2:${id}`);
         if (resourceVar) {
           bindings[bucket.binding] = {
             type: 'resource',
@@ -48,7 +57,8 @@ export class BindingTransformer {
     // D1 Databases
     if (config.d1_databases) {
       for (const db of config.d1_databases) {
-        const resourceVar = context.resources.get(`d1:${db.binding}`);
+        const id = this.sanitizeId(db.binding);
+        const resourceVar = context.resources.get(`d1:${id}`);
         if (resourceVar) {
           bindings[db.binding] = {
             type: 'resource',
@@ -61,7 +71,8 @@ export class BindingTransformer {
     // Queue Producers
     if (config.queues?.producers) {
       for (const queue of config.queues.producers) {
-        const resourceVar = context.resources.get(`queue:${queue.binding}`);
+        const id = this.sanitizeId(queue.binding);
+        const resourceVar = context.resources.get(`queue:${id}`);
         if (resourceVar) {
           bindings[queue.binding] = {
             type: 'resource',
@@ -74,7 +85,8 @@ export class BindingTransformer {
     // Durable Objects
     if (config.durable_objects?.bindings) {
       for (const do_ of config.durable_objects.bindings) {
-        const resourceVar = context.resources.get(`do:${do_.name}`);
+        const id = this.sanitizeId(do_.name);
+        const resourceVar = context.resources.get(`durableobject:${id}`);
         if (resourceVar) {
           bindings[do_.name] = {
             type: 'resource',
