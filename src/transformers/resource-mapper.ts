@@ -103,7 +103,8 @@ export class ResourceMapper {
   mapQueues(queues?: WranglerConfig['queues']): AlchemyResource[] {
     if (!queues?.producers || queues.producers.length === 0) return [];
 
-    return queues.producers.map((queue: any, index: number) => {
+    type ProducerType = NonNullable<NonNullable<WranglerConfig['queues']>['producers']>[number];
+    return queues.producers.map((queue: ProducerType, index: number) => {
       const id = this.sanitizeId(queue.binding.toLowerCase());
       const variableName = this.generateVariableName('queue', id, index);
 

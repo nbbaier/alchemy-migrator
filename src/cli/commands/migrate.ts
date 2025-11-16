@@ -159,7 +159,7 @@ export async function migrateCommand(
       console.log(chalk.white('  2. Read MIGRATION.md for detailed instructions'));
       console.log(chalk.white('  3. Set up your .env file based on .env.example'));
       console.log(chalk.white(`  4. Install alchemy: ${projectContext.packageManager || 'npm'} install alchemy`));
-      console.log(chalk.white(`  5. Deploy: ${projectContext.packageManager || 'npm'} run alchemy.run.ts\n`));
+      console.log(chalk.white('  5. Deploy: npx tsx alchemy.run.ts\n'));
     }
 
   } catch (error: any) {

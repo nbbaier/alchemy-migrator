@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 // Basic worker configuration
 // Use type assertion to avoid circular reference issues
-const BaseWorkerSchema: any = z.object({
+const BaseWorkerSchema = z.object({
   name: z.string(),
   main: z.string().optional(),
   compatibility_date: z.string().optional(),
