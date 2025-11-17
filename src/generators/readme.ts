@@ -1,14 +1,14 @@
-import type { AlchemyConfig, MigrationMetadata } from '../types/alchemy.js';
-import type { ProjectContext } from '../utils/file-utils.js';
+import type { AlchemyConfig, MigrationMetadata } from "../types/alchemy.js";
+import type { ProjectContext } from "../utils/file-utils.js";
 
 export function generateMigrationReadme(
-  config: AlchemyConfig,
-  metadata: MigrationMetadata,
-  projectContext: ProjectContext
+	config: AlchemyConfig,
+	metadata: MigrationMetadata,
+	projectContext: ProjectContext,
 ): string {
-  const packageManager = projectContext.packageManager || 'npm';
+	const packageManager = projectContext.packageManager || "npm";
 
-  return `# Migration to Alchemy
+	return `# Migration to Alchemy
 
 This project has been migrated from Wrangler to Alchemy.
 
@@ -24,7 +24,7 @@ This project has been migrated from Wrangler to Alchemy.
 ### 1. Install Dependencies
 
 \`\`\`bash
-${packageManager} ${packageManager === 'npm' ? 'install' : 'add'} alchemy
+${packageManager} ${packageManager === "npm" ? "install" : "add"} alchemy
 \`\`\`
 
 ### 2. Configure Environment Variables
@@ -38,8 +38,12 @@ cp .env.example .env
 Required environment variables:
 - \`CLOUDFLARE_ACCOUNT_ID\`: Your Cloudflare account ID
 - \`CLOUDFLARE_API_TOKEN\`: Your Cloudflare API token with appropriate permissions
-${config.secrets.length > 0 ? `- \`ALCHEMY_PASSWORD\`: Password for encrypting secrets
-${config.secrets.map(s => `- \`${s}\`: ${s.toLowerCase().replace(/_/g, ' ')}`).join('\n')}` : ''}
+${
+	config.secrets.length > 0
+		? `- \`ALCHEMY_PASSWORD\`: Password for encrypting secrets
+${config.secrets.map((s) => `- \`${s}\`: ${s.toLowerCase().replace(/_/g, " ")}`).join("\n")}`
+		: ""
+}
 
 ### 3. Review Generated Configuration
 
@@ -58,13 +62,13 @@ The migration tool has generated:
 Run the Alchemy configuration to deploy your infrastructure:
 
 \`\`\`bash
-${packageManager === 'npm' ? 'npx' : packageManager === 'bun' ? 'bun' : packageManager} alchemy.run.ts
+${packageManager === "npm" ? "npx" : packageManager === "bun" ? "bun" : packageManager} alchemy.run.ts
 \`\`\`
 
 For production deployment with a specific stage:
 
 \`\`\`bash
-${packageManager === 'npm' ? 'npx' : packageManager === 'bun' ? 'bun' : packageManager} alchemy.run.ts --stage prod
+${packageManager === "npm" ? "npx" : packageManager === "bun" ? "bun" : packageManager} alchemy.run.ts --stage prod
 \`\`\`
 
 ### 5. Local Development
@@ -72,13 +76,13 @@ ${packageManager === 'npm' ? 'npx' : packageManager === 'bun' ? 'bun' : packageM
 To run your worker locally with Alchemy:
 
 \`\`\`bash
-${packageManager === 'npm' ? 'npx' : packageManager === 'bun' ? 'bun' : packageManager} alchemy dev
+${packageManager === "npm" ? "npx" : packageManager === "bun" ? "bun" : packageManager} alchemy dev
 \`\`\`
 
 Or with auto-reload:
 
 \`\`\`bash
-${packageManager === 'bun' ? 'bun --watch' : 'node --watch'} alchemy.run.ts
+${packageManager === "bun" ? "bun --watch" : "node --watch"} alchemy.run.ts
 \`\`\`
 
 ## Resource Adoption
@@ -88,7 +92,7 @@ This migration uses Alchemy's **resource adoption** feature to safely adopt your
 All resources are configured with \`adopt: true\`, which means:
 - ✅ Existing resources will be adopted (not recreated)
 - ✅ No data loss or downtime
-- ✅ State will be tracked in \`.alchemy/${config.stage || '{stage}'}/state.json\`
+- ✅ State will be tracked in \`.alchemy/${config.stage || "{stage}"}/state.json\`
 
 ## Changes from Wrangler
 
@@ -98,11 +102,11 @@ All resources are configured with \`adopt: true\`, which means:
 
 ### Deployment
 - **Before**: \`wrangler deploy\`
-- **After**: \`${packageManager === 'bun' ? 'bun' : packageManager} alchemy.run.ts\`
+- **After**: \`${packageManager === "bun" ? "bun" : packageManager} alchemy.run.ts\`
 
 ### Local Development
 - **Before**: \`wrangler dev\`
-- **After**: \`${packageManager === 'bun' ? 'bun' : packageManager} alchemy dev\`
+- **After**: \`${packageManager === "bun" ? "bun" : packageManager} alchemy dev\`
 
 ### Type Safety
 Alchemy provides full TypeScript type inference for all bindings. Import the generated types:
@@ -121,11 +125,15 @@ export default {
 
 ## Warnings and Manual Steps
 
-${metadata.warnings.length > 0 ? metadata.warnings.map(w => `- ⚠️ ${w}`).join('\n') : '_No warnings_'}
+${metadata.warnings.length > 0 ? metadata.warnings.map((w) => `- ⚠️ ${w}`).join("\n") : "_No warnings_"}
 
-${metadata.manualSteps.length > 0 ? `### Manual Steps Required
+${
+	metadata.manualSteps.length > 0
+		? `### Manual Steps Required
 
-${metadata.manualSteps.map((s, i) => `${i + 1}. ${s}`).join('\n')}` : ''}
+${metadata.manualSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}`
+		: ""
+}
 
 ## State Management
 
