@@ -133,21 +133,4 @@ export class BindingTransformer {
 
 		return bindings;
 	}
-
-	/**
-	 * Heuristic to determine if a variable should be a secret
-	 */
-	private static shouldBeSecret(key: string): boolean {
-		const secretPatterns = [
-			/api[_-]?key/i,
-			/secret/i,
-			/password/i,
-			/token/i,
-			/private[_-]?key/i,
-			/auth/i,
-			/credential/i,
-		];
-
-		return secretPatterns.some((pattern) => pattern.test(key));
-	}
 }
