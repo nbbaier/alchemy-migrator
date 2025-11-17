@@ -1,0 +1,55 @@
+name               = "my-worker"
+main               = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "CACHE"
+id      = "kv-123"
+
+[[kv_namespaces]]
+binding = "SESSION_STORE"
+id      = "kv-456"
+
+[[r2_buckets]]
+binding     = "UPLOADS"
+bucket_name = "my-uploads-bucket"
+
+[[d1_databases]]
+binding       = "DB"
+database_name = "production-db"
+database_id   = "db-789"
+
+[[queues.producers]]
+binding = "TASKS"
+queue   = "background-tasks"
+
+[[queues.consumers]]
+queue             = "background-tasks"
+max_batch_size    = 10
+max_batch_timeout = 30
+max_retries       = 3
+
+[[durable_objects.bindings]]
+name       = "COUNTER"
+class_name = "Counter"
+
+[triggers]
+crons = ["0 0 * * *"]
+
+[[routes]]
+pattern = "example.com/*"
+
+[[routes]]
+pattern = "api.example.com/*"
+zone_id = "zone-123"
+
+[vars]
+API_KEY    = "secret-key-value"
+API_URL    = "https://api.example.com"
+MAX_RETRIES = "5"
+DEBUG      = "true"
+
+[observability]
+enabled            = true
+head_sampling_rate = 0.5

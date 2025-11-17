@@ -1,0 +1,32 @@
+name               = "env-worker"
+main               = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id      = "base-kv-123"
+
+[vars]
+ENVIRONMENT = "base"
+
+[env.staging]
+[[env.staging.kv_namespaces]]
+binding = "CACHE"
+id      = "staging-kv-456"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+API_URL     = "https://staging-api.example.com"
+
+[env.production]
+[[env.production.kv_namespaces]]
+binding = "CACHE"
+id      = "prod-kv-789"
+
+[[env.production.r2_buckets]]
+binding     = "UPLOADS"
+bucket_name = "prod-uploads"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+API_URL     = "https://api.example.com"
