@@ -260,4 +260,196 @@ describe("ResourceMapper", () => {
 			expect(result[0].props.title).toBe("my-app-cache");
 		});
 	});
+
+	describe("mapHyperdrive", () => {
+		it("should map Hyperdrive bindings", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			const hyperdrive = [{ binding: "DATABASE", id: "hd123" }];
+
+			const result = mapper.mapHyperdrive(hyperdrive);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].type).toBe("Hyperdrive");
+			expect(result[0].id).toBe("database");
+			expect(result[0].variableName).toBe("database");
+			expect(result[0].adopt).toBe(true);
+			expect(result[0].props.id).toBe("hd123");
+		});
+
+		it("should return empty array for undefined input", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			expect(mapper.mapHyperdrive(undefined)).toEqual([]);
+			expect(mapper.mapHyperdrive([])).toEqual([]);
+		});
+	});
+
+	describe("mapAI", () => {
+		it("should map AI binding", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			const ai = { binding: "AI" };
+
+			const result = mapper.mapAI(ai);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].type).toBe("AI");
+			expect(result[0].id).toBe("ai");
+			expect(result[0].variableName).toBe("ai");
+			expect(result[0].adopt).toBe(false); // AI is not adoptable
+			expect(result[0].props).toEqual({});
+		});
+
+		it("should return empty array for undefined input", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			expect(mapper.mapAI(undefined)).toEqual([]);
+		});
+	});
+
+	describe("mapAnalyticsEngine", () => {
+		it("should map Analytics Engine datasets", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			const analytics = [
+				{ binding: "ANALYTICS", dataset: "my-dataset" },
+				{ binding: "LOGS", dataset: "logs-dataset" },
+			];
+
+			const result = mapper.mapAnalyticsEngine(analytics);
+
+			expect(result).toHaveLength(2);
+			expect(result[0].type).toBe("AnalyticsEngineDataset");
+			expect(result[0].id).toBe("analytics");
+			expect(result[0].variableName).toBe("analytics");
+			expect(result[0].props.dataset).toBe("my-dataset");
+			expect(result[0].adopt).toBe(true);
+		});
+
+		it("should generate dataset names when preserveNames is false", () => {
+			const mapper = new ResourceMapper({
+				adopt: false,
+				preserveNames: false,
+				appName: "my-app",
+			});
+
+			const analytics = [{ binding: "ANALYTICS", dataset: "old-dataset" }];
+			const result = mapper.mapAnalyticsEngine(analytics);
+
+			expect(result[0].props.dataset).toBe("my-app-analytics");
+		});
+
+		it("should return empty array for undefined input", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			expect(mapper.mapAnalyticsEngine(undefined)).toEqual([]);
+			expect(mapper.mapAnalyticsEngine([])).toEqual([]);
+		});
+	});
+
+	describe("mapBrowser", () => {
+		it("should map Browser Rendering binding", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			const browser = { binding: "BROWSER" };
+
+			const result = mapper.mapBrowser(browser);
+
+			expect(result).toHaveLength(1);
+			expect(result[0].type).toBe("BrowserRendering");
+			expect(result[0].id).toBe("browser");
+			expect(result[0].variableName).toBe("browser");
+			expect(result[0].adopt).toBe(false); // Browser is not adoptable
+			expect(result[0].props).toEqual({});
+		});
+
+		it("should return empty array for undefined input", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			expect(mapper.mapBrowser(undefined)).toEqual([]);
+		});
+	});
+
+	describe("mapDispatchNamespaces", () => {
+		it("should map Dispatch Namespaces", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			const dispatch = [
+				{ binding: "DISPATCHER", namespace: "my-namespace" },
+				{ binding: "WORKERS", namespace: "workers-namespace" },
+			];
+
+			const result = mapper.mapDispatchNamespaces(dispatch);
+
+			expect(result).toHaveLength(2);
+			expect(result[0].type).toBe("DispatchNamespace");
+			expect(result[0].id).toBe("dispatcher");
+			expect(result[0].variableName).toBe("dispatcher");
+			expect(result[0].props.namespace).toBe("my-namespace");
+			expect(result[0].adopt).toBe(true);
+		});
+
+		it("should generate namespace names when preserveNames is false", () => {
+			const mapper = new ResourceMapper({
+				adopt: false,
+				preserveNames: false,
+				appName: "my-app",
+			});
+
+			const dispatch = [
+				{ binding: "DISPATCHER", namespace: "old-namespace" },
+			];
+			const result = mapper.mapDispatchNamespaces(dispatch);
+
+			expect(result[0].props.namespace).toBe("my-app-dispatcher");
+		});
+
+		it("should return empty array for undefined input", () => {
+			const mapper = new ResourceMapper({
+				adopt: true,
+				preserveNames: true,
+				appName: "test-app",
+			});
+
+			expect(mapper.mapDispatchNamespaces(undefined)).toEqual([]);
+			expect(mapper.mapDispatchNamespaces([])).toEqual([]);
+		});
+	});
 });

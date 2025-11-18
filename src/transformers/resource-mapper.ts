@@ -160,6 +160,129 @@ export class ResourceMapper {
 		});
 	}
 
+	/**
+	 * Map Hyperdrive
+	 */
+	mapHyperdrive(
+		hyperdrive?: WranglerConfig["hyperdrive"],
+	): AlchemyResource[] {
+		if (!hyperdrive || hyperdrive.length === 0) return [];
+
+		return hyperdrive.map((hd: any, index: number) => {
+			const id = this.sanitizeId(hd.binding.toLowerCase());
+			const variableName = this.generateVariableName("hyperdrive", id, index);
+
+			return {
+				type: "Hyperdrive" as const,
+				id,
+				variableName,
+				adopt: this.options.adopt,
+				props: {
+					id: hd.id,
+					adopt: this.options.adopt,
+				},
+			};
+		});
+	}
+
+	/**
+	 * Map AI
+	 */
+	mapAI(ai?: WranglerConfig["ai"]): AlchemyResource[] {
+		if (!ai) return [];
+
+		const id = this.sanitizeId(ai.binding.toLowerCase());
+		const variableName = this.generateVariableName("ai", id, 0);
+
+		return [
+			{
+				type: "AI" as const,
+				id,
+				variableName,
+				adopt: false, // AI is a platform binding, not adoptable
+				props: {},
+			},
+		];
+	}
+
+	/**
+	 * Map Analytics Engine Datasets
+	 */
+	mapAnalyticsEngine(
+		analytics?: WranglerConfig["analytics_engine_datasets"],
+	): AlchemyResource[] {
+		if (!analytics || analytics.length === 0) return [];
+
+		return analytics.map((ae: any, index: number) => {
+			const id = this.sanitizeId(ae.binding.toLowerCase());
+			const variableName = this.generateVariableName("analytics", id, index);
+
+			const dataset = this.options.preserveNames
+				? ae.dataset
+				: this.generateResourceName("analytics", id);
+
+			return {
+				type: "AnalyticsEngineDataset" as const,
+				id,
+				variableName,
+				adopt: this.options.adopt,
+				props: {
+					dataset: dataset || undefined,
+					adopt: this.options.adopt,
+				},
+			};
+		});
+	}
+
+	/**
+	 * Map Browser Rendering
+	 */
+	mapBrowser(browser?: WranglerConfig["browser"]): AlchemyResource[] {
+		if (!browser) return [];
+
+		const id = this.sanitizeId(browser.binding.toLowerCase());
+		const variableName = this.generateVariableName("browser", id, 0);
+
+		return [
+			{
+				type: "BrowserRendering" as const,
+				id,
+				variableName,
+				adopt: false, // Browser is a platform binding, not adoptable
+				props: {},
+			},
+		];
+	}
+
+	/**
+	 * Map Dispatch Namespaces
+	 */
+	mapDispatchNamespaces(
+		dispatch?: WranglerConfig["dispatch_namespaces"],
+	): AlchemyResource[] {
+		if (!dispatch || dispatch.length === 0) return [];
+
+		return dispatch.map((d: any, index: number) => {
+			const id = this.sanitizeId(d.binding.toLowerCase());
+			const variableName = this.generateVariableName("dispatch", id, index);
+
+			const namespace = this.options.preserveNames
+				? d.namespace
+				: this.generateResourceName("dispatch", id);
+
+			return {
+				type: "DispatchNamespace" as const,
+				id,
+				variableName,
+				adopt: this.options.adopt,
+				props: {
+					namespace,
+					adopt: this.options.adopt,
+				},
+			};
+		});
+	}
+
 	private sanitizeId(id: string): string {
 		return id.replace(/[^a-z0-9_]/gi, "_");
 	}

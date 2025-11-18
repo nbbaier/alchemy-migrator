@@ -47,6 +47,11 @@ export class ConfigTransformer {
 			...mapper.mapD1Databases(targetConfig.d1_databases),
 			...mapper.mapQueues(targetConfig.queues),
 			...mapper.mapDurableObjects(targetConfig.durable_objects),
+			...mapper.mapHyperdrive(targetConfig.hyperdrive),
+			...mapper.mapAI(targetConfig.ai),
+			...mapper.mapAnalyticsEngine(targetConfig.analytics_engine_datasets),
+			...mapper.mapBrowser(targetConfig.browser),
+			...mapper.mapDispatchNamespaces(targetConfig.dispatch_namespaces),
 		];
 
 		// Build resource lookup map

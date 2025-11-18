@@ -125,6 +125,72 @@ export class BindingTransformer {
 			}
 		}
 
+		// Hyperdrive
+		if (config.hyperdrive) {
+			for (const hd of config.hyperdrive) {
+				const id = BindingTransformer.sanitizeId(hd.binding);
+				const resourceVar = context.resources.get(`hyperdrive:${id}`);
+				if (resourceVar) {
+					bindings[hd.binding] = {
+						type: "resource",
+						resourceRef: resourceVar,
+					};
+				}
+			}
+		}
+
+		// AI
+		if (config.ai) {
+			const id = BindingTransformer.sanitizeId(config.ai.binding);
+			const resourceVar = context.resources.get(`ai:${id}`);
+			if (resourceVar) {
+				bindings[config.ai.binding] = {
+					type: "resource",
+					resourceRef: resourceVar,
+				};
+			}
+		}
+
+		// Analytics Engine
+		if (config.analytics_engine_datasets) {
+			for (const ae of config.analytics_engine_datasets) {
+				const id = BindingTransformer.sanitizeId(ae.binding);
+				const resourceVar = context.resources.get(`analyticsenginedataset:${id}`);
+				if (resourceVar) {
+					bindings[ae.binding] = {
+						type: "resource",
+						resourceRef: resourceVar,
+					};
+				}
+			}
+		}
+
+		// Browser Rendering
+		if (config.browser) {
+			const id = BindingTransformer.sanitizeId(config.browser.binding);
+			const resourceVar = context.resources.get(`browserrendering:${id}`);
+			if (resourceVar) {
+				bindings[config.browser.binding] = {
+					type: "resource",
+					resourceRef: resourceVar,
+				};
+			}
+		}
+
+		// Dispatch Namespaces
+		if (config.dispatch_namespaces) {
+			for (const d of config.dispatch_namespaces) {
+				const id = BindingTransformer.sanitizeId(d.binding);
+				const resourceVar = context.resources.get(`dispatch:${id}`);
+				if (resourceVar) {
+					bindings[d.binding] = {
+						type: "resource",
+						resourceRef: resourceVar,
+					};
+				}
+			}
+		}
+
 		// Service Bindings
 		if (config.services) {
 			// Note: Service bindings require special handling
@@ -132,5 +198,22 @@ export class BindingTransformer {
 		}
 
 		return bindings;
+	}
+
+	/**
+	 * Heuristic to determine if a variable should be a secret
+	 */
+	private static shouldBeSecret(key: string): boolean {
+		const secretPatterns = [
+			/api[_-]?key/i,
+			/secret/i,
+			/password/i,
+			/token/i,
+			/private[_-]?key/i,
+			/auth/i,
+			/credential/i,
+		];
+
+		return secretPatterns.some((pattern) => pattern.test(key));
 	}
 }
