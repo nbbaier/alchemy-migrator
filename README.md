@@ -7,7 +7,7 @@ CLI tool to migrate Cloudflare Wrangler projects to Alchemy infrastructure-as-co
 - Migrate wrangler.toml/wrangler.json to alchemy.run.ts
 - Auto-generate TypeScript types for worker environments
 - Resource adoption (no downtime, no data loss)
-- Support for KV, R2, D1, Queues, Durable Objects, and more
+- Support for KV, R2, D1, Queues, Durable Objects, Hyperdrive, AI, Analytics Engine, Browser Rendering, and Dispatch Namespaces
 - Interactive mode for guided migration
 - Dry-run mode to preview changes
 

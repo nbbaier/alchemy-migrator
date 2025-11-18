@@ -17,7 +17,12 @@ export interface AlchemyResource {
 		| "R2Bucket"
 		| "D1Database"
 		| "Queue"
-		| "DurableObjectNamespace";
+		| "DurableObjectNamespace"
+		| "Hyperdrive"
+		| "AI"
+		| "AnalyticsEngineDataset"
+		| "BrowserRendering"
+		| "DispatchNamespace";
 	id: string; // Resource identifier in code
 	variableName: string; // Variable name to export
 	props: any; // Type-specific props
