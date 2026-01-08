@@ -58,7 +58,7 @@ export type AlchemyBinding =
  */
 export interface MigrationMetadata {
 	sourceFile: string;
-	sourceFormat: "toml" | "json";
+	sourceFormat: "toml" | "json" | "jsonc";
 	migratedAt: string;
 	warnings: string[];
 	manualSteps: string[];

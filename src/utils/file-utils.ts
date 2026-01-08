@@ -13,6 +13,7 @@ export interface DiscoveredConfig {
 export function discoverWranglerConfig(dir: string): DiscoveredConfig | null {
 	const candidates = [
 		{ path: join(dir, "wrangler.json"), format: "json" as const },
+		{ path: join(dir, "wrangler.jsonc"), format: "jsonc" as const },
 		{ path: join(dir, "wrangler.toml"), format: "toml" as const },
 	];
 

@@ -27,7 +27,7 @@ export async function migrateCommand(configPath: string, options: any) {
 		if (configPath === "auto") {
 			const discovered = discoverWranglerConfig(process.cwd());
 			if (!discovered) {
-				spinner.fail("No wrangler.toml or wrangler.json found");
+				spinner.fail("No wrangler.toml, wrangler.json, or wrangler.jsonc found");
 				console.log(
 					chalk.yellow(
 						"\nPlease specify the path to your wrangler configuration file.",

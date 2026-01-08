@@ -1,12 +1,13 @@
 import { readFileSync } from "node:fs";
 import { parse as parseToml } from "@iarna/toml";
+import { parse as parseJsonc } from "jsonc-parser";
 import {
 	type NormalizedWranglerConfig,
 	type WranglerConfig,
 	WranglerConfigSchema,
 } from "./schema.js";
 
-export type ConfigFormat = "toml" | "json";
+export type ConfigFormat = "toml" | "json" | "jsonc";
 
 export interface ParserResult {
 	config: NormalizedWranglerConfig;
@@ -27,6 +28,8 @@ export async function parseWranglerConfig(
 
 	if (format === "toml") {
 		rawConfig = parseToml(content);
+	} else if (format === "jsonc") {
+		rawConfig = parseJsonc(content);
 	} else {
 		rawConfig = JSON.parse(content);
 	}
@@ -54,8 +57,9 @@ export async function parseWranglerConfig(
 
 function detectFormat(filePath: string): ConfigFormat {
 	if (filePath.endsWith(".toml")) return "toml";
+	if (filePath.endsWith(".jsonc")) return "jsonc";
 	if (filePath.endsWith(".json")) return "json";
-	throw new Error("Unsupported config format. Must be .toml or .json");
+	throw new Error("Unsupported config format. Must be .toml, .json, or .jsonc");
 }
 
 /**
