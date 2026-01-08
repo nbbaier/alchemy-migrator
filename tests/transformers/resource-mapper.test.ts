@@ -433,9 +433,7 @@ describe("ResourceMapper", () => {
 				appName: "my-app",
 			});
 
-			const dispatch = [
-				{ binding: "DISPATCHER", namespace: "old-namespace" },
-			];
+			const dispatch = [{ binding: "DISPATCHER", namespace: "old-namespace" }];
 			const result = mapper.mapDispatchNamespaces(dispatch);
 
 			expect(result[0].props.namespace).toBe("my-app-dispatcher");

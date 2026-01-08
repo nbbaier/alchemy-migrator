@@ -163,9 +163,7 @@ export class ResourceMapper {
 	/**
 	 * Map Hyperdrive
 	 */
-	mapHyperdrive(
-		hyperdrive?: WranglerConfig["hyperdrive"],
-	): AlchemyResource[] {
+	mapHyperdrive(hyperdrive?: WranglerConfig["hyperdrive"]): AlchemyResource[] {
 		if (!hyperdrive || hyperdrive.length === 0) return [];
 
 		return hyperdrive.map((hd: any, index: number) => {

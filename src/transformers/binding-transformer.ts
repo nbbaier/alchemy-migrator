@@ -155,7 +155,9 @@ export class BindingTransformer {
 		if (config.analytics_engine_datasets) {
 			for (const ae of config.analytics_engine_datasets) {
 				const id = BindingTransformer.sanitizeId(ae.binding);
-				const resourceVar = context.resources.get(`analyticsenginedataset:${id}`);
+				const resourceVar = context.resources.get(
+					`analyticsenginedataset:${id}`,
+				);
 				if (resourceVar) {
 					bindings[ae.binding] = {
 						type: "resource",
@@ -198,22 +200,5 @@ export class BindingTransformer {
 		}
 
 		return bindings;
-	}
-
-	/**
-	 * Heuristic to determine if a variable should be a secret
-	 */
-	private static shouldBeSecret(key: string): boolean {
-		const secretPatterns = [
-			/api[_-]?key/i,
-			/secret/i,
-			/password/i,
-			/token/i,
-			/private[_-]?key/i,
-			/auth/i,
-			/credential/i,
-		];
-
-		return secretPatterns.some((pattern) => pattern.test(key));
 	}
 }
