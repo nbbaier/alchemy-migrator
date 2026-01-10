@@ -201,4 +201,18 @@ export class BindingTransformer {
 
 		return bindings;
 	}
+
+	private static shouldBeSecret(key: string): boolean {
+		const secretPatterns = [
+			/api[_-]?key/i,
+			/secret/i,
+			/password/i,
+			/token/i,
+			/private[_-]?key/i,
+			/auth/i,
+			/credential/i,
+		];
+
+		return secretPatterns.some((pattern) => pattern.test(key));
+	}
 }
