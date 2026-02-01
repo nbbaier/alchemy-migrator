@@ -7,7 +7,15 @@ CLI tool to migrate Cloudflare Wrangler projects to Alchemy infrastructure-as-co
 - Migrate wrangler.toml/wrangler.json to alchemy.run.ts
 - Auto-generate TypeScript types for worker environments
 - Resource adoption (no downtime, no data loss)
-- Support for KV, R2, D1, Queues, Durable Objects, Hyperdrive, AI, Analytics Engine, Browser Rendering, and Dispatch Namespaces
+- Support for all major Cloudflare resources:
+  - Storage: KV, R2, D1, Queues, Durable Objects, Hyperdrive
+  - Compute: AI, Analytics Engine, Browser Rendering
+  - Routing: Dispatch Namespaces
+- Complete Worker configuration support:
+  - Triggers (Cron)
+  - Observability settings
+  - Compatibility dates and flags
+  - Environment variables with secret detection
 - Interactive mode for guided migration
 - Dry-run mode to preview changes
 
@@ -24,28 +32,28 @@ npm run build
 
 ```bash
 # Auto-discover wrangler config in current directory
-node dist/cli/index.js migrate
+node dist/index.mjs migrate
 
 # Specify config file
-node dist/cli/index.js migrate wrangler.toml
+node dist/index.mjs migrate wrangler.toml
 
 # Interactive mode
-node dist/cli/index.js migrate -i
+node dist/index.mjs migrate -i
 
 # Dry run (preview without writing files)
-node dist/cli/index.js migrate --dry-run
+node dist/index.mjs migrate --dry-run
 ```
 
 ### Validate wrangler config
 
 ```bash
-node dist/cli/index.js validate wrangler.toml
+node dist/index.mjs validate wrangler.toml
 ```
 
 ### Preview generated config
 
 ```bash
-node dist/cli/index.js preview wrangler.toml
+node dist/index.mjs preview wrangler.toml
 ```
 
 ## Options
